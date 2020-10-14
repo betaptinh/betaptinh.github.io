@@ -1,0 +1,12 @@
+.bg-orange{
+    background-color: #fd7e14;
+}
+.main-content{
+    width: 72.25%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.section-header{
+    text-align: center;
+}
