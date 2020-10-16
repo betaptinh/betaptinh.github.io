@@ -13,62 +13,69 @@
                 <img src="images/calculator-banner.png" alt="calculator-banner" class="img-fluid"/>
             </div>
         </header>
-        <main class="main-content bg-white container-sm">
-            <h1 class="section-header text-monospace mt-1 p-3">Bé tập tính</h1>
+
+        <main class="main-content bg-white container mt-3 mb-3 p-3">
+            <h1 class="section-header text-monospace p-3">Bé tập tính</h1>
             <hr>
-            <form class="container-fluid">
-                <div class="row">
-                    <div class="col-sm">
+            <form class="container">
+                <div class="row mb-3">
+                    <div class="col-md-2">
                         <label>Số thứ nhất</label>
                     </div>
-                    <div class="col-sm">
-                        <input type="text" class="form-control form-control-lg" name="firstNum"/>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control form-control-lg" name="firstNum" onchange="firstNumberValidation(this.form)"/>
                     </div>
-                    <div class="col-sm">
+                    <div class="col-md-2">
                         <input type="radio" id="add" name="operator">
                         <label for="add">Cộng</label>
                         
                     </div>
-                    <div class="col-sm">
+                    <div class="col-md-2">
                         <input type="radio" id="substract" name="operator">
                         <label for="substract">Trừ</label>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-sm">
+                <div class="row mb-3">
+                    <div class=" col-md-2">
                         <label>Số thứ hai</label>
                     </div>
-                    <div class="col-sm">
-                        <input type="text" class="form-control form-control-lg" name="secondNum"/>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control form-control-lg" name="secondNum" onchange="secondNumberValidation(this.form)"/>
                     </div>
-                    <div class="col-sm">
+                    <div class="col-md-2">
                         <input type="radio" id="multiply" name="operator">
                         <label for="multiply">Nhân</label>
                         
                     </div>
-                    <div class="col-sm">
+                    <div class="col-md-2">
                         <input type="radio" id="divide" name="operator">
                         <label for="divide">Chia</label>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-sm">
+                <div class="row mb-3">
+                    <div class="col-md-2">
                         <label>Kết quả</label>
                     </div>
-                    <div class="col-sm">
+                    <div class="col-md-6">
                         <input type="text" class="form-control form-control-lg" id="result"/>
                     </div>
-                    <div class="col-sm-6">
-                        <input type="button" id="btnCalculate" class="btn btn-success" value="Tính" onclick="calculate(this.form)">
+                    <div class="col-md-4">
+                        <input type="button" id="btnCalculate" class="btn btn-success btn-lg" value="Tính" onclick="calculate(this.form)">
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-sm">
+                <div class="row ">
+                    <div class="col-md-2">
                         <label>Thông báo</label>
+                    </div>
+                    <div class="col-md-10">
+                        <span id="error" name="error" class="text-danger"></span>
                     </div>
                 </div>
             </form>
         </main>
+        <footer class="container">
+            <h3 class="text-monospace p-5 text-center text-white">Phan Thanh Bao Chau @ 2020</h3>
+        </footer>
         <script>
             function calculate(frm) {
                 const addRad=document.getElementById('add');
@@ -77,6 +84,10 @@
                 const divRad=document.getElementById('divide');
                 const firstNumber=parseFloat(frm.firstNum.value);
                 const secondNumber=parseFloat(frm.secondNum.value);
+                operatorCheckValidation();
+                if (!fullFillingValidation(frm)){
+                    return;
+                }
                 if (addRad.checked){
                     document.getElementById("result").value=firstNumber+secondNumber;
                 }
@@ -90,8 +101,49 @@
                     document.getElementById("result").value=firstNumber/secondNumber;
                 }
             }
-
-            
+            function firstNumberValidation(frm){
+                const firstNumber=parseFloat(frm.firstNum.value);
+                const sNode=document.getElementById("error");
+                if (isNaN(firstNumber)){
+                    sNode.innerHTML="Giá trị nhập ở ô <span class='font-italic'>Số thứ nhất</span> không phải là số";
+                }
+                else{
+                     sNode.innerText="";
+                }
+            }
+            function secondNumberValidation(frm){
+                const secondNumber=parseFloat(frm.secondNum.value);
+                const sNode=document.getElementById("error");
+                if (isNaN(secondNumber)){
+                    sNode.innerHTML="Giá trị nhập ở ô <span class='font-italic'>Số thứ hai</span> không phải là số";
+                }
+                else{
+                    sNode.innerText="";
+                }
+            }
+            function operatorCheckValidation(){
+                const addRad=document.getElementById('add');
+                const subRad=document.getElementById('substract');
+                const mulRad=document.getElementById('multiply');
+                const divRad=document.getElementById('divide');
+                const sNode=document.getElementById("error");
+                if (addRad.checked || subRad.checked || mulRad.checked || divRad.checked){
+                    sNode.innerHTML="";
+                }
+                else{
+                    sNode.innerHTML="Chưa chọn phép tính";
+                }
+            }
+            function fullFillingValidation(frm){
+                const firstNumber=frm.firstNum.value;
+                const secondNumber=frm.secondNum.value;
+                const sNode=document.getElementById("error");
+                if (isNaN(firstNumber) || isNaN(secondNumber) || isNaN(parseFloat(firstNumber)) || isNaN(parseFloat(secondNumber))){
+                    sNode.innerHTML="Chưa điền đủ hai số HỢP LỆ để thực hiện phép tính";
+                    return false;
+                }
+                return true;
+            }
         </script>
     </body>
 </html>
